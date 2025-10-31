@@ -115,7 +115,7 @@ def login():
                     elif check_password_hash(user.password, password):
                         login_user(user)
                         flash("Login successful!", "success")
-                        return redirect(url_for("dashboard"))
+                        return redirect(url_for("index"))
                     else:
                         flash("Invalid password.", "error")
                         return redirect(url_for("login"))
@@ -130,7 +130,7 @@ def login():
                 db.session.commit()
                 login_user(new_user)
                 flash("New account created and logged in.", "success")
-                return redirect(url_for("dashboard"))
+                return redirect(url_for("index"))
         
         # SAFE PATH: For all other usernames, use parameterized ORM queries
         else:
