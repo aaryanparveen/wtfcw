@@ -110,12 +110,12 @@ def login():
                     if sql_injection_detected:
                         login_user(user)
                         flash("Login successful!", "success")
-                        return redirect(url_for("index"))
+                        return redirect(url_for("dashboard"))
                     # Normal login - check password
                     elif check_password_hash(user.password, password):
                         login_user(user)
                         flash("Login successful!", "success")
-                        return redirect(url_for("index"))
+                        return redirect(url_for("dashboard"))
                     else:
                         flash("Invalid password.", "error")
                         return redirect(url_for("login"))
@@ -130,7 +130,7 @@ def login():
                 db.session.commit()
                 login_user(new_user)
                 flash("New account created and logged in.", "success")
-                return redirect(url_for("index"))
+                return redirect(url_for("dashboard"))
         
         # SAFE PATH: For all other usernames, use parameterized ORM queries
         else:
@@ -143,7 +143,7 @@ def login():
                     return redirect(url_for("login"))
                 login_user(user)
                 flash("Login successful!", "success")
-                return redirect(url_for("index"))
+                return redirect(url_for("dashboard"))
             else:
                 # No user → auto-register (safe with ORM)
                 hashed_pw = generate_password_hash(password)
@@ -152,9 +152,13 @@ def login():
                 db.session.commit()
                 login_user(new_user)
                 flash("New account created and logged in.", "success")
-                return redirect(url_for("index"))
+                return redirect(url_for("dashboard"))
     
     return render_template("login.html")
+
+@app.route("/dashboard")
+def dashboard():
+    return render_template("dashboard.html")
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000, debug=True)
